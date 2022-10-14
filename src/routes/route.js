@@ -34,7 +34,7 @@ router.get('/test-me', function (req, res) {
     let finalresult=lodash.union(5,arr);
     console.log(finalresult);
 
-    let newarr=[["horror","The Shining"],["drama","Titanic"],["thriller","Shutter","Island"],["fantasy","Pans Labyrinth"]]
+    let newarr=[["horror","The Shining"],["drama","Titanic"],["thriller","Shutter Island"],["fantasy","Pans Labyrinth"]]
     let pair=lodash.fromPairs(newarr);
     console.log(pair);
 
