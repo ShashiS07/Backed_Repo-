@@ -1,59 +1,39 @@
 const { count } = require("console")
 const BookModel= require("../models/bookModel")
+const authorModel=require("../models/authorModel")
 
 const createBook= async function (req, res) {
     let data= req.body
-
     let savedData= await BookModel.create(data)
-    res.send({msg: savedData})
+    res.send({data: savedData})
 }
 
-const getBooksData= async function (req, res) {
-    let allBooks= await BookModel.find( {authorName : "HO" } )
-    console.log(allBooks)
-    if (allBooks.length > 0 )  res.send({msg: allBooks, condition: true})
-    else res.send({msg: "No books found" , condition: false})
+const getbookbyid= async function(req,res){
+    let author= await authorModel.find({author_Name:"Chetan Bhagat"})
+    let authorid=author[0].authorId
+    let allbooks= await BookModel.find({authorId:authorid}).select({name:1,_id:0})
+    res.send({data:allbooks})
 }
 
-
-const updateBooks= async function (req, res) {
-    let data = req.body // {sales: "1200"}
-    // let allBooks= await BookModel.updateMany( 
-    //     { author: "SK"} , //condition
-    //     { $set: data } //update in data
-    //  )
-    let allBooks= await BookModel.findOneAndUpdate( 
-        { authorName: "ABC"} , //condition
-        { $set: data }, //update in data
-        { new: true , upsert: true} ,// new: true - will give you back the updated document // Upsert: it finds and updates the document but if the doc is not found(i.e it does not exist) then it creates a new document i.e UPdate Or inSERT  
-     )
-     
-     res.send( { msg: allBooks})
+const getupdateprice=async function(req,res){
+    let book=await BookModel.findOneAndUpdate({name:"Two States"},{$set:{price:100}},{$new:true})
+    let authorid=book.authorId
+    let author_name=await authorModel.find({authorId:authorid}).select({author_Name:1,_id:0})
+    res.send({data:book,author_name})
 }
 
-const deleteBooks= async function (req, res) {
-    // let data = req.body 
-    let allBooks= await BookModel.updateMany( 
-        { authorName: "FI"} , //condition
-        { $set: {isDeleted: true} }, //update in data
-        { new: true } ,
-     )
-     
-     res.send( { msg: allBooks})
+const pricebetween= async function(req,res){
+    let books=await BookModel.find({price:{$gte:50,$lte:100}}).select({authorId:1,_id:0})
+    let id=books.map(ele=>ele.authorId)
+    let bag=[];
+    for(let i=0; i<id.length;i++){
+        let authorName= await authorModel.find({authorId:id[i]}).select({author_Name:1,_id:0})
+        bag.push(authorName);
+    }
+    res.send(bag)
 }
-
-
-
-
-// CRUD OPERATIONS:
-// CREATE
-// READ
-// UPDATE
-// DELETE
-
-
 
 module.exports.createBook= createBook
-module.exports.getBooksData= getBooksData
-module.exports.updateBooks= updateBooks
-module.exports.deleteBooks= deleteBooks
+module.exports.getbookbyid= getbookbyid
+module.exports.getupdateprice=getupdateprice
+module.exports.pricebetween=pricebetween
