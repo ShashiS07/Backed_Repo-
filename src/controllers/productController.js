@@ -1,9 +1,10 @@
-const productModel= require("../models/authorModel")
+const productModel=require("../models/productmodel")
 
-const createproduct= async function(req,res){
-    let data=req.body
-    let product=await productModel.create(data)
-    res.send({products:product})
+
+const createProduct=async function(req,res){
+    let data =req.body
+    let productcreate=await productModel.create(data)
+    res.send({product:productcreate})
 }
 
-module.exports.createproduct=createproduct
+module.exports.createProduct=createProduct

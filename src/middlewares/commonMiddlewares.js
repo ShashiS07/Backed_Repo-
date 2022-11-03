@@ -1,14 +1,16 @@
-const middleware=function(req,res,next){
-    if(!req.headers.isFreeAppUser){
-        res.send({error:"the request is missing a mandatory header"})
-    }else{
-        if(req.headers.isFreeAppUser=="false"){
-            req.headers["freeApp"]=false
-        }else if(req.headers.isFreeAppUser=="true"){
-            req.headers["freeApp"]=true
+const mid1= function ( req, res, next) {
+    if(!req.headers.isfreeappuser){
+        return res.send({error:"the request is missing a mandatory header"})
+    }
+    else{
+        if(req.headers.isfreeappuser=="false"){
+            req.headers["freeapp"]=false
+        }
+        else if(req.headers.isfreeappuser=="true"){
+            req.headers["freeapp"]=true
         }
     }
     next()
 }
 
-module.exports.middleware=middleware
+module.exports.mid1=mid1
