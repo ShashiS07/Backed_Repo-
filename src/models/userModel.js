@@ -10,9 +10,9 @@ const userSchema = new mongoose.Schema( {
     age: Number,
     gender: {
         type: String,
-        enum: ["male", "female", "LGBTQ"] //"falana" will give an error
+        enum: ["male", "female", "LGBTQ"] 
     },
-    isFreeUser:{
+    isFreeAppUser:{
         type:String,
         default:false
     },
@@ -20,7 +20,3 @@ const userSchema = new mongoose.Schema( {
 
 module.exports = mongoose.model('Userdocument', userSchema)
 
-
-
-// String, Number
-// Boolean, Object/json, array
