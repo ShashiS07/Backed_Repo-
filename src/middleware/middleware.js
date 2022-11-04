@@ -14,7 +14,7 @@ const middleware=async function(req,res,next){
     let user = await userModel.findById(userId);
    
     if (!user) {
-      return res.send("No such user exists");
+      return res.send({status:false,error:"No such user exist"});
     }
     if(decodetoken.userId !==userId){
       return res.send({status:false,error:"user are not authorised"})
